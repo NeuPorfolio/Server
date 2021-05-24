@@ -1,4 +1,4 @@
-package com.neuporfolio.server;
+package com.neuporfolio.server.viewpagecontrollers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +13,6 @@ public class HelloController {
 
     @RequestMapping("/servertime")
     public String hello(){
-        Date t=new Date();
-        return t.toString();
+        return new Date().toString();
     }
 }
