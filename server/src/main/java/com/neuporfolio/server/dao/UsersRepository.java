@@ -1,12 +1,13 @@
-package com.neuporfolio.server.security;
+package com.neuporfolio.server.dao;
 
+import com.neuporfolio.server.domain.Users;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository("UserRepository")
-public interface UserRepository extends CrudRepository<User, Long> {
+@Repository
+public interface UsersRepository extends CrudRepository<Users, Long> {
 
-    User findByUsername(String username);
+    Users findByUsername(String username);//模板自动生成
 
     /*
     自己写太麻烦了！还是用模板吧。

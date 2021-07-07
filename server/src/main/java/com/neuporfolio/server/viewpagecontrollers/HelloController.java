@@ -12,7 +12,7 @@ import java.util.Date;
 public class HelloController {
 
     @RequestMapping("/servertime")
-    public String hello(){
+    public String hello() {
         return new Date().toString();
     }
 }

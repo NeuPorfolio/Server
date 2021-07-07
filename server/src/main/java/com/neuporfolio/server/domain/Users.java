@@ -1,8 +1,8 @@
-package com.neuporfolio.server.security;
+package com.neuporfolio.server.domain;
 
+import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,34 +11,50 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
-@Slf4j
 @Data
 @NoArgsConstructor
 @Entity
-public class User implements UserDetails {
+public class Users implements UserDetails {
     //要求属性名和数据库命名一致
     @Id//定义主键
-    @GeneratedValue(strategy = GenerationType.AUTO)//使用默认主键生成策略
+    @GeneratedValue(strategy = GenerationType.IDENTITY)//使用IDENTITY主键生成策略
     private Long id;
+    @NotNull
     private String username;
+    @NotNull
     private String password;
     private boolean enabled;
     private String role;
-    private Date registration_date;
-    private Date last_login_date;
+    private Date registrationDate;
+    private Date lastLoginDate;
     private String email;
     private String phone;
 
-    public User(String username, String password) {
-        this.id = getId();
-        this.username = password;
+    public Users(String username, String password) {
+        this.username = username;
         this.password = password;
         this.enabled = true;
+    }
+
+    public Users(String username, String password, String role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.enabled = true;
+    }
+
+    public void copyUsers(Users toUser) {
+        this.username = toUser.getUsername();
+        this.password = toUser.getPassword();
+        this.role = toUser.getRole();
+        this.email = toUser.getEmail();
+        this.phone = toUser.getPhone();
+
     }
 
     @Override

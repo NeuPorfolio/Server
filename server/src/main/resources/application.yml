@@ -1,5 +1,0 @@
-spring:
-  datasource:
-    url: jdbc:sqlserver://localhost\\TEST:1433;database=test
-    username: ddd
-    password: ddd
