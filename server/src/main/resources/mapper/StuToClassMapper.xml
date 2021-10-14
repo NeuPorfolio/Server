@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neuporfolio.server.mapper.StuToClassMapper">
+
+    <resultMap id="BaseResultMap" type="com.neuporfolio.server.domain.StuToClass">
+        <result property="classId" column="class_id" jdbcType="INTEGER"/>
+        <result property="stuId" column="stu_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        class_id,stu_id
+    </sql>
+    <insert id="insertAll">
+        insert into stu_to_class
+        (class_id, stu_id)
+        values (#{classId,jdbcType=NUMERIC}, #{stuId,jdbcType=NUMERIC})
+
+    </insert>
+    <select id="findStuIdByClassId" resultMap="BaseResultMap">
+        select stu_id
+        from stu_to_class
+        where class_id = #{classId,jdbcType=NUMERIC}
+    </select>
+    <delete id="deleteByClassId">
+        delete
+        from stu_to_class
+        where class_id = #{classId,jdbcType=NUMERIC}
+    </delete>
+</mapper>

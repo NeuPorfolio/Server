@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neuporfolio.server.mapper.ClassroomMapper">
+
+    <resultMap id="BaseResultMap" type="com.neuporfolio.server.domain.Classroom">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="majorId" column="major_id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="majorName" column="major_name" jdbcType="VARCHAR"/>
+        <result property="teacherId" column="teacher_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,major_id,name,
+        major_name,teacher_id
+    </sql>
+    <select id="selectAllByMajorId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from classroom
+        where
+        major_id = #{majorId,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from classroom
+    </select>
+    <insert id="insertAll">
+        insert into classroom
+        (id, major_id, name,
+        major_name, teacher_id)
+        values (#{id,jdbcType=INTEGER}, #{majorId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+        #{majorName,jdbcType=VARCHAR}, #{teacherId,javaType=INTEGER})
+
+    </insert>
+    <select id="findOneById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from classroom
+        where
+        id = #{id,jdbcType=INTEGER}
+    </select>
+</mapper>

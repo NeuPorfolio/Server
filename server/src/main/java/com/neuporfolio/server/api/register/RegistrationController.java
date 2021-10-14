@@ -1,20 +1,26 @@
 package com.neuporfolio.server.api.register;
 
-import com.neuporfolio.server.domain.Students;
-import com.neuporfolio.server.domain.Teachers;
-import com.neuporfolio.server.domain.Users;
-import com.neuporfolio.server.service.StudentsService;
-import com.neuporfolio.server.service.TeachersService;
-import com.neuporfolio.server.service.UsersService;
+
+import com.neuporfolio.server.api.ComForm;
+import com.neuporfolio.server.domain.User;
+import com.neuporfolio.server.service.UserService;
+import com.sun.istack.NotNull;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
+
+/***
+ * 注册
+ */
 
 @Slf4j
 @RestController
@@ -22,47 +28,81 @@ import javax.annotation.Resource;
 public class RegistrationController {
 
     @Resource
-    private UsersService usersService;
+    private UserService userService;
 
-    @Resource
-    private StudentsService studentsService;
-
-    @Resource
-    private TeachersService teachersService;
-
+    /***
+     * 注册
+     * @param registrationRequestForm 注册表单
+     * @return msg
+     */
     @PostMapping
-    public ResponseEntity<RegistrationResponseForm> processRegistration(RegistrationRequestForm registrationRequestForm) {
-        //身份填写错误
+    public ResponseEntity<?> processRegistration(@RequestBody RegistrationRequestForm registrationRequestForm) {
+        //表单缺漏
         if (!registrationRequestForm.isWhole()) {
-            return new ResponseEntity<>(new RegistrationResponseForm("表单信息缺失"), HttpStatus.BAD_REQUEST);
-        }
-        if (!(registrationRequestForm.getRole().equals("student") || registrationRequestForm.getRole().equals("teacher"))) {
-            return new ResponseEntity<>(new RegistrationResponseForm("用户身份不可用."), HttpStatus.NOT_ACCEPTABLE);
-        }
-        //用户已存在
-        if (usersService.findByUserName(registrationRequestForm.getUsername()) != null) {
-            return new ResponseEntity<>(new RegistrationResponseForm("用户" + usersService.findByUserName(registrationRequestForm.getUsername()).getUsername() + "已经存在."), HttpStatus.NOT_ACCEPTABLE);
-        }
-
-        //检查完整性
-        if (registrationRequestForm.getRole().equals("student")) {
-            if (registrationRequestForm.getSno() == null) {
-                return new ResponseEntity<>(new RegistrationResponseForm("sno不能为空"), HttpStatus.BAD_REQUEST);
-            }
+            return new RegistrationFailForm(-1, "表单内容不完善").toResponseEntity();
         }
 
         //注册
-        usersService.save(registrationRequestForm.toUser());
-        Users users = usersService.findByUserName(registrationRequestForm.getUsername());
-        //添加信息到教室和学生表
-        if (registrationRequestForm.getRole().equals("student")) {
-            Students students = registrationRequestForm.toStudents(users.getId());
-            studentsService.add(students);
-        } else if (registrationRequestForm.getRole().equals("teacher")) {
-            Teachers teachers = registrationRequestForm.toTeachers(users.getId());
-            teachersService.add(teachers);
+        String username = registrationRequestForm.getUsername();
+        String password = registrationRequestForm.getPassword();
+        String role = registrationRequestForm.getRole();
+        User user;
+        try {
+            user = userService.buildUser(username, password, role);
+        } catch (UserService.ExistedUserException e) {
+            return new RegistrationFailForm(-3, "用户已存在").toResponseEntity();
+        } catch (UserService.UnavailableRoleException e) {
+            return new RegistrationFailForm(-2, "用户身份不可用").toResponseEntity();
+        } catch (UserService.DaoFactException e) {
+            e.printStackTrace();
+            return new RegistrationFailForm(-666, "预料之外的错误,请联系开发人员").toResponseEntity();
         }
 
-        return new ResponseEntity<>(new RegistrationResponseForm("注册成功"), HttpStatus.OK);
+        return new RegistrationSucceedForm(200, user.getRole()).toResponseEntity();
+    }
+
+    public static class RegistrationFailForm extends ComForm {
+        Map<String, String> detail;
+
+        public RegistrationFailForm(int code, String msg) {
+            super(code);
+            this.detail = new HashMap<>();
+            detail.put("msg", msg);
+        }
+    }
+
+    @Data
+    public static class RegistrationRequestForm {
+        @NotNull
+        private String email;
+        @NotNull
+        private String password;
+        @NotNull
+        private String role;
+
+        public boolean isWhole() {
+            return email != null && password != null && role != null;
+        }
+
+        public boolean isRoleAvailable() {
+            return role.equals("学生") || role.equals("教师");
+        }
+
+        public String getUsername() {
+            return email;
+        }
+    }
+
+    /***
+     * {
+     *     "code":200,
+     *     "identity":"student"
+     * }
+     */
+    private static class RegistrationSucceedForm extends ComForm {
+        public RegistrationSucceedForm(int i, String role) {
+            super(i);
+            super.put("identity", role);
+        }
     }
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neuporfolio.server.mapper.CourseToClassMapper">
+
+    <resultMap id="BaseResultMap" type="com.neuporfolio.server.domain.CourseToClass">
+        <id property="courseId" column="course_id" jdbcType="INTEGER"/>
+        <id property="classId" column="class_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        course_id,class_id
+    </sql>
+    <delete id="deleteByClassId">
+        delete
+        from course_to_class
+        where class_id = #{classId,jdbcType=NUMERIC}
+    </delete>
+    <insert id="insertAll">
+        insert into course_to_class
+        (course_id, class_id)
+        values (#{courseId,jdbcType=NUMERIC}, #{classId,jdbcType=NUMERIC})
+
+    </insert>
+    <select id="findByClassId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from course_to_class
+        where
+        class_id = #{classId,jdbcType=NUMERIC}
+    </select>
+</mapper>

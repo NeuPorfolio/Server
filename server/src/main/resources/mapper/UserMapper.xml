@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neuporfolio.server.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.neuporfolio.server.domain.User">
+        <id property="uid" column="uid" jdbcType="INTEGER"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="role" column="role" jdbcType="VARCHAR"/>
+        <result property="enabled" column="enabled" jdbcType="BIT"/>
+        <result property="registrationDate" column="registration_date" jdbcType="TIMESTAMP"/>
+        <result property="lastLoginDate" column="last_login_date" jdbcType="TIMESTAMP"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="phoneNumber" column="phone_number" jdbcType="VARCHAR"/>
+        <result property="isRegFinished" column="is_reg_finished" jdbcType="BIT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        uid,username,password,
+        role,enabled,registration_date,
+        last_login_date,email,phone_number,
+        is_reg_finished
+    </sql>
+    <select id="selectAllByUsername" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where
+        username = #{username,jdbcType=VARCHAR}
+    </select>
+    <update id="setIsRegFinishedByUsername">
+        update user
+        set is_reg_finished = #{isRegFinished,jdbcType=BOOLEAN}
+        where username = #{username,jdbcType=VARCHAR}
+    </update>
+    <insert id="insertAll">
+        insert into user
+        (uid, username, password,
+        role, enabled, registration_date,
+        last_login_date, email, phone_number,
+        is_reg_finished)
+        values (#{uid,jdbcType=NUMERIC}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+        #{role,jdbcType=VARCHAR}, #{enabled,jdbcType=BOOLEAN}, #{registrationDate,jdbcType=TIMESTAMP},
+        #{lastLoginDate,jdbcType=TIMESTAMP}, #{email,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR},
+        #{isRegFinished,jdbcType=BOOLEAN})
+
+    </insert>
+</mapper>
