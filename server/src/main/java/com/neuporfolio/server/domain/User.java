@@ -5,10 +5,18 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 登陆账户信息
@@ -17,7 +25,7 @@ import java.util.Date;
  */
 @TableName(value = "user")
 @Data
-public class User implements Serializable {
+public class User implements Serializable, UserDetails {
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
     /**
@@ -41,6 +49,7 @@ public class User implements Serializable {
     /**
      * 用户是否被启用
      */
+    @Getter(value = AccessLevel.NONE)
     private Boolean enabled;
     /**
      * 注册日期
@@ -79,7 +88,7 @@ public class User implements Serializable {
                 && (this.getUsername() == null ? other.getUsername() == null : this.getUsername().equals(other.getUsername()))
                 && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
                 && (this.getRole() == null ? other.getRole() == null : this.getRole().equals(other.getRole()))
-                && (this.getEnabled() == null ? other.getEnabled() == null : this.getEnabled().equals(other.getEnabled()))
+                && (this.isEnabled() == other.isEnabled())
                 && (this.getRegistrationDate() == null ? other.getRegistrationDate() == null : this.getRegistrationDate().equals(other.getRegistrationDate()))
                 && (this.getLastLoginDate() == null ? other.getLastLoginDate() == null : this.getLastLoginDate().equals(other.getLastLoginDate()))
                 && (this.getEmail() == null ? other.getEmail() == null : this.getEmail().equals(other.getEmail()))
@@ -95,7 +104,7 @@ public class User implements Serializable {
         result = prime * result + ((getUsername() == null) ? 0 : getUsername().hashCode());
         result = prime * result + ((getPassword() == null) ? 0 : getPassword().hashCode());
         result = prime * result + ((getRole() == null) ? 0 : getRole().hashCode());
-        result = prime * result + ((getEnabled() == null) ? 0 : getEnabled().hashCode());
+        result = prime * result + (Boolean.valueOf(this.isEnabled()).hashCode());
         result = prime * result + ((getRegistrationDate() == null) ? 0 : getRegistrationDate().hashCode());
         result = prime * result + ((getLastLoginDate() == null) ? 0 : getLastLoginDate().hashCode());
         result = prime * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
@@ -123,5 +132,42 @@ public class User implements Serializable {
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<SimpleGrantedAuthority> list = new ArrayList<>();
+        list.add(new SimpleGrantedAuthority(this.role));
+        return list;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

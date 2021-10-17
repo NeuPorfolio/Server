@@ -30,4 +30,16 @@
         where
         class_id = #{classId,jdbcType=NUMERIC}
     </select>
+    <select id="findByCourseId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from course_to_class
+        where
+        course_id = #{courseId,jdbcType=NUMERIC}
+    </select>
+    <delete id="deleteByCourseId">
+        delete
+        from course_to_class
+        where course_id = #{courseId,jdbcType=NUMERIC}
+    </delete>
 </mapper>

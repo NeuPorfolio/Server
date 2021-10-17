@@ -7,5 +7,5 @@ import com.neuporfolio.server.domain.Identity;
  *
  */
 public interface IdentityService extends IService<Identity> {
-
+    Identity getByWholeName(String role);
 }

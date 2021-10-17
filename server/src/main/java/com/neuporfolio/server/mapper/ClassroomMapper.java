@@ -3,12 +3,14 @@ package com.neuporfolio.server.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.neuporfolio.server.domain.Classroom;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * @Entity com.neuporfolio.server.domain.Classroom
  */
+@Repository
 public interface ClassroomMapper extends BaseMapper<Classroom> {
     List<Classroom> selectAllByMajorId(@Param("majorId") Integer majorId);
 
@@ -17,6 +19,7 @@ public interface ClassroomMapper extends BaseMapper<Classroom> {
     Classroom findOneById(@Param("id") Integer id);
 
     int insertAll(Classroom classroom);
+
 }
 
 

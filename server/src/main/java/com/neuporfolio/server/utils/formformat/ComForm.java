@@ -1,4 +1,4 @@
-package com.neuporfolio.server.api;
+package com.neuporfolio.server.utils.formformat;
 
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.http.HttpStatus;

@@ -1,9 +1,10 @@
 package com.neuporfolio.server.api.register;
 
 
-import com.neuporfolio.server.api.ComForm;
 import com.neuporfolio.server.domain.User;
+import com.neuporfolio.server.service.IdentityService;
 import com.neuporfolio.server.service.UserService;
+import com.neuporfolio.server.utils.formformat.ComForm;
 import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,9 @@ public class RegistrationController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private IdentityService identityService;
 
     /***
      * 注册
@@ -58,7 +62,7 @@ public class RegistrationController {
             return new RegistrationFailForm(-666, "预料之外的错误,请联系开发人员").toResponseEntity();
         }
 
-        return new RegistrationSucceedForm(200, user.getRole()).toResponseEntity();
+        return new RegistrationSucceedForm(200, identityService.getByWholeName(user.getRole()).getSimplyRole()).toResponseEntity();
     }
 
     public static class RegistrationFailForm extends ComForm {

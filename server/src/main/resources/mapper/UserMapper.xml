@@ -38,13 +38,20 @@
     <insert id="insertAll">
         insert into user
         (uid, username, password,
-        role, enabled, registration_date,
-        last_login_date, email, phone_number,
-        is_reg_finished)
+         role, enabled, registration_date,
+         last_login_date, email, phone_number,
+         is_reg_finished)
         values (#{uid,jdbcType=NUMERIC}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
-        #{role,jdbcType=VARCHAR}, #{enabled,jdbcType=BOOLEAN}, #{registrationDate,jdbcType=TIMESTAMP},
-        #{lastLoginDate,jdbcType=TIMESTAMP}, #{email,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR},
-        #{isRegFinished,jdbcType=BOOLEAN})
+                #{role,jdbcType=VARCHAR}, #{enabled,jdbcType=BOOLEAN}, #{registrationDate,jdbcType=TIMESTAMP},
+                #{lastLoginDate,jdbcType=TIMESTAMP}, #{email,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR},
+                #{isRegFinished,jdbcType=BOOLEAN})
 
     </insert>
+    <select id="selectOneByUsername" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where
+        username = #{username,jdbcType=VARCHAR}
+    </select>
 </mapper>

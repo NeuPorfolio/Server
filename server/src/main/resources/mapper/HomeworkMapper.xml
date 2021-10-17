@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neuporfolio.server.mapper.HomeworkMapper">
+
+    <resultMap id="BaseResultMap" type="com.neuporfolio.server.domain.Homework">
+        <id property="homewordId" column="homeword_id" jdbcType="INTEGER"/>
+        <result property="time" column="time" jdbcType="TIMESTAMP"/>
+        <result property="courseId" column="course_id" jdbcType="INTEGER"/>
+        <result property="teacherId" column="teacher_id" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="detail" column="detail" jdbcType="VARCHAR"/>
+        <result property="classId" column="class_id" jdbcType="INTEGER"/>
+        <result property="className" column="class_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+                homeword_id, time, course_id,
+                teacher_id, title, detail,
+                class_id, class_name
+    </sql>
+    <select id="selectAllByCourseId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from homework
+        where
+        course_id = #{courseId,jdbcType=NUMERIC}
+    </select>
+</mapper>

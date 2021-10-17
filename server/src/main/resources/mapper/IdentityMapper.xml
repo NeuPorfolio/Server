@@ -16,7 +16,7 @@
         role,simply_role,extra1,
         extra2,extra3
     </sql>
-    <select id="selectByAllStyleRoleName" resultMap="BaseResultMap">
+    <select id="selectOneByAllStyleRoleName" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from identity
@@ -28,5 +28,6 @@
         extra2 = #{roleName,jdbcType=VARCHAR}
         or
         extra2 = #{roleName,jdbcType=VARCHAR}
+
     </select>
 </mapper>

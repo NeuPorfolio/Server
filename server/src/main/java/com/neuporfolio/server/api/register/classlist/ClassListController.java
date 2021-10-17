@@ -1,14 +1,13 @@
 package com.neuporfolio.server.api.register.classlist;
 
-import com.neuporfolio.server.api.ComForm;
 import com.neuporfolio.server.domain.Classroom;
 import com.neuporfolio.server.service.ClassroomService;
+import com.neuporfolio.server.utils.formformat.ComForm;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -28,11 +27,10 @@ public class ClassListController {
     /***
      * 获取班级列表
      * @param id 专业id
-     * @param httpCookie cookie
      * @return 列表，包含所有班级对象
      */
     @GetMapping
-    public ResponseEntity<?> getClassListById(@Param("major") int id, HttpCookie httpCookie) {
+    public ResponseEntity<?> getClassListById(@RequestParam("major") Integer id) {
         ClassListForm classListForm = new ClassListForm(200, classroomService.findByMajorId(id));
         return classListForm.toResponseEntity();
     }

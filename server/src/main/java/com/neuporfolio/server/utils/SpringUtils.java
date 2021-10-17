@@ -1,4 +1,4 @@
-package com.neuporfolio.server.Utils;
+package com.neuporfolio.server.utils;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeansException;

@@ -8,11 +8,20 @@
         <id property="id" column="id" jdbcType="INTEGER"/>
         <result property="majorId" column="major_id" jdbcType="INTEGER"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="img" column="img" jdbcType="VARCHAR"/>
+        <result property="link" column="link" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,major_id,name
+        id, major_id, name, img, link
     </sql>
+    <select id="selectAllByMajor_id" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from course
+        where
+
+    </select>
     <select id="selectAllByMajorId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -26,5 +35,10 @@
         from course
         where
         id = #{id,jdbcType=NUMERIC}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from course
     </select>
 </mapper>

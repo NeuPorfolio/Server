@@ -2,17 +2,16 @@ package com.neuporfolio.server.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.neuporfolio.server.domain.Identity;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
+import org.springframework.stereotype.Repository;
 
 /**
  * @Entity com.neuporfolio.server.domain.Identity
  */
-@Mapper
+@Repository
 public interface IdentityMapper extends BaseMapper<Identity> {
-    List<Identity> selectByAllStyleRoleName(@Param("roleName") String roleName);
+    Identity selectOneByAllStyleRoleName(@Param("roleName") String roleName);
+
 }
 
 

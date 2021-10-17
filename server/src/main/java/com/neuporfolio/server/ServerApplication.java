@@ -1,13 +1,13 @@
 package com.neuporfolio.server;
 
-import com.neuporfolio.server.Utils.SpringUtils;
+import com.neuporfolio.server.utils.SpringUtils;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
-@MapperScan("com.neuporfolio.server")
+@MapperScan(basePackages = "com.neuporfolio.server.mapper")
 public class ServerApplication {
     static SpringUtils springUtils = new SpringUtils();
 

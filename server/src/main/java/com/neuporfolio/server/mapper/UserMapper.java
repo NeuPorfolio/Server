@@ -3,15 +3,15 @@ package com.neuporfolio.server.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.neuporfolio.server.domain.User;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
+import org.springframework.stereotype.Repository;
 
 /**
  * @Entity com.neuporfolio.server.domain.User
  */
+@Repository
 public interface UserMapper extends BaseMapper<User> {
 
-    List<User> selectAllByUsername(@Param("username") String username);
+    User selectOneByUsername(@Param("username") String username);
 
     int setIsRegFinishedByUsername(@Param("isRegFinished") Boolean isRegFinished, @Param("username") String username);
 

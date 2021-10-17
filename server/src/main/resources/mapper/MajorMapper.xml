@@ -4,7 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.neuporfolio.server.mapper.MajorMapper">
 
-    <resultMap id="BaseResultMap" type="com.neuporfolio.server.domain.Major">
+
+<resultMap id="BaseResultMap" type="com.neuporfolio.server.domain.Major">
         <id property="id" column="id" jdbcType="INTEGER"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
     </resultMap>

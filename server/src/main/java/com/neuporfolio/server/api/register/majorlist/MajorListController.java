@@ -1,8 +1,8 @@
 package com.neuporfolio.server.api.register.majorlist;
 
-import com.neuporfolio.server.api.ComForm;
 import com.neuporfolio.server.domain.Major;
 import com.neuporfolio.server.service.MajorService;
+import com.neuporfolio.server.utils.formformat.ComForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

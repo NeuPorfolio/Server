@@ -21,4 +21,5 @@ public class DataSourceConfig {
     public DataSource primaryDataSource() {
         return DataSourceBuilder.create().build();
     }
+
 }

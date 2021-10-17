@@ -1,11 +1,11 @@
 package com.neuporfolio.server.api.major.majorid.course;
 
 import com.github.pagehelper.PageInfo;
-import com.neuporfolio.server.api.ComFailureForm;
-import com.neuporfolio.server.api.ObjectPagerForm;
 import com.neuporfolio.server.domain.Course;
 import com.neuporfolio.server.service.CourseService;
 import com.neuporfolio.server.service.MajorService;
+import com.neuporfolio.server.utils.formformat.ComFailureForm;
+import com.neuporfolio.server.utils.formformat.ObjectPagerForm;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;

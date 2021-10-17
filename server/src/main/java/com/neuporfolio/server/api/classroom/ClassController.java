@@ -2,14 +2,13 @@ package com.neuporfolio.server.api.classroom;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
-import com.neuporfolio.server.Utils.ConstValues;
-import com.neuporfolio.server.api.ComFailureForm;
-import com.neuporfolio.server.api.ComForm;
-import com.neuporfolio.server.api.PagerForm;
 import com.neuporfolio.server.domain.Classroom;
-import com.neuporfolio.server.domain.User;
 import com.neuporfolio.server.service.ClassroomService;
-import com.neuporfolio.server.service.UserService;
+import com.neuporfolio.server.utils.AuthChecker;
+import com.neuporfolio.server.utils.formformat.ComFailureForm;
+import com.neuporfolio.server.utils.formformat.ComForm;
+import com.neuporfolio.server.utils.formformat.PagerForm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +17,8 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
+@Slf4j
 @RestController
 @RequestMapping(path = "/api/class")
 public class ClassController {
@@ -28,7 +27,7 @@ public class ClassController {
     ClassroomService classroomService;
 
     @Resource
-    UserService userService;
+    AuthChecker authChecker;
 
     @GetMapping
     public ResponseEntity<?> getClassList(@RequestParam(name = "page", defaultValue = "1") Integer page,
@@ -40,12 +39,8 @@ public class ClassController {
             "msg":"未登录！"
              }
            }
-         */
-        if (!SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
-            return new ComFailureForm(401, "未登录").toResponseEntity();
-        }
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (!Objects.equals(((User) userService.loadUserByUsername(username)).getRole(), ConstValues.roleAdminParameter)) {
+        */
+        if (!authChecker.isAdminAuth(SecurityContextHolder.getContext().getAuthentication())) {
             return new ComFailureForm(403, "权限不足").toResponseEntity();
         }
         /*

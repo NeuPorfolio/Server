@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neuporfolio.server.mapper.SheetMapper">
+
+    <resultMap id="BaseResultMap" type="com.neuporfolio.server.domain.Sheet">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="studentId" column="student_id" jdbcType="INTEGER"/>
+        <result property="homeworkId" column="homework_id" jdbcType="INTEGER"/>
+        <result property="mark" column="mark" jdbcType="BIT"/>
+        <result property="detail" column="detail" jdbcType="VARCHAR"/>
+        <result property="imgs" column="imgs" jdbcType="VARCHAR"/>
+        <result property="files" column="files" jdbcType="VARCHAR"/>
+        <result property="time" column="time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+                id, student_id, homework_id,
+                mark, detail, imgs,
+                files, time
+    </sql>
+    <select id="selectAllByHomeworkId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sheet
+        where
+        homework_id = #{homeworkId,jdbcType=NUMERIC}
+    </select>
+</mapper>

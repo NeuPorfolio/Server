@@ -1,4 +1,4 @@
-package com.neuporfolio.server.Utils;
+package com.neuporfolio.server.utils;
 
 import com.neuporfolio.server.mapper.IdentityMapper;
 import org.springframework.context.annotation.Bean;
@@ -25,13 +25,13 @@ public class ConstValues {
         /*
          从数据库初始化常量
          */
-        roleTeacherParameter = mapper.selectByAllStyleRoleName("teacher").get(0).getRole();
-        roleStudentParameter = mapper.selectByAllStyleRoleName("student").get(0).getRole();
-        roleAdminParameter = mapper.selectByAllStyleRoleName("admin").get(0).getRole();
+        roleTeacherParameter = mapper.selectOneByAllStyleRoleName("teacher").getRole();
+        roleStudentParameter = mapper.selectOneByAllStyleRoleName("student").getRole();
+        roleAdminParameter = mapper.selectOneByAllStyleRoleName("admin").getRole();
 
-        roleSimplyTeacherParameter = mapper.selectByAllStyleRoleName("teacher").get(0).getSimplyRole();
-        roleSimplyStudentParameter = mapper.selectByAllStyleRoleName("student").get(0).getSimplyRole();
-        roleSimplyAdminParameter = mapper.selectByAllStyleRoleName("admin").get(0).getSimplyRole();
+        roleSimplyTeacherParameter = mapper.selectOneByAllStyleRoleName("teacher").getSimplyRole();
+        roleSimplyStudentParameter = mapper.selectOneByAllStyleRoleName("student").getSimplyRole();
+        roleSimplyAdminParameter = mapper.selectOneByAllStyleRoleName("admin").getSimplyRole();
 
         roleComplexToSimplyParameterMapper = new HashMap<>();
         roleComplexToSimplyParameterMapper.put(roleTeacherParameter, roleSimplyTeacherParameter);

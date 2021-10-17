@@ -1,8 +1,5 @@
 package com.neuporfolio.server.api.complete;
 
-import com.neuporfolio.server.Utils.ConstValues;
-import com.neuporfolio.server.api.ComFailureForm;
-import com.neuporfolio.server.api.ComForm;
 import com.neuporfolio.server.config.MyAuthenticationManager;
 import com.neuporfolio.server.config.MyAuthenticationProvider;
 import com.neuporfolio.server.domain.Student;
@@ -11,6 +8,9 @@ import com.neuporfolio.server.domain.User;
 import com.neuporfolio.server.service.StudentService;
 import com.neuporfolio.server.service.TeacherService;
 import com.neuporfolio.server.service.UserService;
+import com.neuporfolio.server.utils.ConstValues;
+import com.neuporfolio.server.utils.formformat.ComFailureForm;
+import com.neuporfolio.server.utils.formformat.ComForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -67,9 +67,6 @@ public class CompleteController {
          * 表操作
          */
         if (user.getRole().equals(ConstValues.roleStudentParameter)) {
-            if (completeForm.isDef()) {
-                return new ComFailureForm(-1, "表单信息不全").toResponseEntity();
-            }
             Student student = new Student();
             student.setUid(user.getUid());
             student.setMajorId(completeForm.major);
@@ -84,9 +81,6 @@ public class CompleteController {
              */
             return new ResponseForm2(200, "student").toResponseEntity();
         } else if (user.getRole().equals(ConstValues.roleTeacherParameter)) {
-            if (completeForm.isDefT()) {
-                return new ComFailureForm(-1, "表单信息不全").toResponseEntity();
-            }
             Teacher teacher = new Teacher();
             teacher.setUid(user.getUid());
             teacher.setMajorId(completeForm.major);
@@ -145,12 +139,5 @@ public class CompleteController {
             this.classroom = (Integer) json.get("class");
         }
 
-        public boolean isDef() {
-            return nick == null || studentnumber == null || major == null || classroom == null;
-        }
-
-        public boolean isDefT() {
-            return nick == null || major == null;
-        }
     }
 }
